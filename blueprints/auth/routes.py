@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required
 from .forms import LoginForm, RegisterForm
 from extensions import db
 from models import User
-from blueprints.auth import auth_bp
+from blueprints import auth_bp
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
