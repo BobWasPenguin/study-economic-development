@@ -26,24 +26,29 @@ def create_app(config_class=DevConfig):
 
     @app.route("/")
     def home():
-        # Simply render the dashboard template without any query parameters.
-        # Users will be able to submit the form to /dashboard to fetch data.
-        return render_template("home.html",
-                               title="Dashboard",
-                               chapters_count=20,
-                               cases_count=6,
-                               indicators=[],
-                               news_items=[],
-                               countries=[("ID", "Indonesia"), ("US", "United States"), ("VN", "Vietnam")],
-                               current_country=None,
-                               now=dt.datetime.utcnow)
+        # Render the same dashboard template, but with empty data
+        return render_template(
+            "home.html",
+            title="Dashboard",
+            chapters_count=20,
+            cases_count=6,
+            indicators=[],   # empty list so Jinja loops harmlessly
+            news_items=[],   # empty list so Jinja loops harmlessly
+            countries=[      # dropdown options
+                ("ID", "Indonesia"),
+                ("US", "United States"),
+                ("VN", "Vietnam"),
+            ],
+            current_country=None,   # no country selected by default
+            now=dt.datetime.utcnow
+        )
 
     @app.route("/dashboard")
     def dashboard():
-        # Get the selected country code (default to "ID" if none provided)
+        # Grab the selected country code (default to "ID" if not provided)
         country = request.args.get("country", "ID")
 
-        # TODO: Replace these placeholders with real API calls.
+        # TODO: replace these placeholders with real API calls
         indicators = [
             {"label": "GDP (USD Bn)",       "value": "1 188"},
             {"label": "Inflation Rate (%)", "value": "2.8"},
@@ -58,21 +63,21 @@ def create_app(config_class=DevConfig):
                 "title":   "Central Bank Holds Rates Steady",
                 "url":     "https://example.com/article1",
                 "image":   "https://source.unsplash.com/800x600?economics",
-                "summary": "Officials signalled a wait-and-see approach as core inflation stabilises.",
+                "summary": "Officials signalled a wait‐and‐see approach as core inflation stabilises.",
                 "source":  "Reuters"
             },
             {
                 "title":   "Export Growth Surges in Q1",
                 "url":     "https://example.com/article2",
                 "image":   "https://source.unsplash.com/800x600?trade",
-                "summary": "Merchandise exports jumped 15% year-on-year, driven by electronics and agriculture.",
+                "summary": "Merchandise exports jumped 15% year‐on‐year, driven by electronics and agriculture.",
                 "source":  "Bloomberg"
             },
             {
-                "title":   "Foreign Direct Investment Rises",
+                "title":   "FDI Inflow Rises",
                 "url":     "https://example.com/article3",
                 "image":   "https://source.unsplash.com/800x600?investment",
-                "summary": "FDI inflows for the first half of the year reached $20 billion, up 10% from last year.",
+                "summary": "FDI inflows for the first half of year reached $20 billion, up 10% from last year.",
                 "source":  "Financial Times"
             },
         ]
@@ -81,21 +86,24 @@ def create_app(config_class=DevConfig):
             ("ID", "Indonesia"),
             ("US", "United States"),
             ("VN", "Vietnam"),
-            # Add more (code, name) tuples as needed
         ]
 
-        return render_template("home.html",
-                               title="Dashboard",
-                               chapters_count=20,
-                               cases_count=6,
-                               indicators=indicators,
-                               news_items=news_items,
-                               countries=countries,
-                               current_country=country,
-                               now=dt.datetime.utcnow)
+        return render_template(
+            "home.html",
+            title="Dashboard",
+            chapters_count=20,
+            cases_count=6,
+            indicators=indicators,
+            news_items=news_items,
+            countries=countries,
+            current_country=country,
+            now=dt.datetime.utcnow
+        )
 
     return app
 
+# Expose the Flask instance so `flask run` will pick it up
+app = create_app()
+
 if __name__ == "__main__":
-    app = create_app()
     app.run()
