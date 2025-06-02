@@ -2,7 +2,7 @@ from flask import render_template, abort
 from flask_login import login_required
 
 from models import Module, Chapter
-from blueprints.courses import courses_bp
+from blueprints import courses_bp
 
 @courses_bp.route("/")
 @login_required
