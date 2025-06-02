@@ -1,4 +1,4 @@
-# Study Center Web App – Draft
+# Economic Development App - Study Center with Visuals
 
 A Flask-based learning platform for Economic Development students, structured around Todaro's framework. This scaffold includes user authentication, course/chapter management, resource library, and placeholders for quizzes & simulation modules.
 
