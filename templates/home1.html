@@ -1,0 +1,162 @@
+{# templates/home.html #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title or "Study-Center Dashboard" }}</title>
+
+  <!-- Tailwind CSS (via CDN for quick prototyping) -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet" />
+
+  <!-- Optional: custom dotted-star background like your first frame -->
+  <style>
+    .star-bg {
+      background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900">
+
+<!-- ─────────────────────────  Navbar  ───────────────────────── -->
+<header class="fixed inset-x-0 top-0 z-30 bg-white/80 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+    <a href="{{ url_for('home') }}" class="flex items-center space-x-2 font-semibold">
+      <img src="{{ url_for('static', filename='logo.png') }}" class="h-6 w-6" alt="logo" />
+      <span>UPSTUDY</span>
+    </a>
+
+    <nav class="hidden gap-8 md:flex">
+      <a href="#indicators"  class="hover:text-teal-600">Indicators</a>
+      <a href="#chapters"    class="hover:text-teal-600">Chapters</a>
+      <a href="#news"        class="hover:text-teal-600">News</a>
+      <a href="#quizzes"     class="hover:text-teal-600">Quiz&nbsp;Bank</a>
+    </nav>
+
+    <a href="{{ url_for('auth.login') }}" class="rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-teal-700">
+      Sign&nbsp;In
+    </a>
+  </div>
+</header>
+
+<main class="pt-24">
+
+  <!-- ────────────────────────  Hero section  ──────────────────────── -->
+  <section class="star-bg relative overflow-hidden pb-28 text-center text-white">
+    <div class="absolute inset-0 -z-10 bg-[#06122a] opacity-95"></div>
+
+    <!-- Floating cube / shapes can be inserted as absolutely-positioned images if desired -->
+
+    <div class="mx-auto max-w-3xl px-6">
+      <span class="inline-flex items-center rounded-full bg-teal-500/90 px-4 py-1 text-sm font-semibold shadow">
+        <svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M5 13l4 4L19 7" />
+        </svg>
+        Most&nbsp;Powerful
+      </span>
+
+      <h1 class="mt-8 text-4xl font-extrabold leading-tight md:text-6xl">
+        Learn&nbsp;Economic<br class="hidden md:block" />
+        Development the&nbsp;<span class="text-teal-400">Exciting</span>&nbsp;Way
+      </h1>
+
+      <p class="mx-auto mt-6 max-w-xl text-lg text-gray-300">
+        Interactive chapters, real-time indicators, and curated news—everything you need to master Development Economics.
+      </p>
+
+      <a href="#chapters" class="mt-8 inline-block rounded-xl bg-teal-500 px-6 py-3 text-base font-medium shadow-lg ring-2 ring-transparent transition hover:bg-teal-600 hover:ring-teal-300">
+        Get Started
+      </a>
+
+      <!-- Quick stats -->
+      <div class="mt-12 flex flex-wrap items-center justify-center gap-10 text-center">
+        <div>
+          <span class="text-5xl font-extrabold">{{ chapters_count or 20 }}+</span>
+          <p class="mt-1 text-sm uppercase tracking-wide text-teal-300">Chapters</p>
+        </div>
+        <div class="h-8 w-px bg-gray-700"></div>
+        <div>
+          <span class="text-5xl font-extrabold">{{ cases_count or 6 }}+</span>
+          <p class="mt-1 text-sm uppercase tracking-wide text-teal-300">Study&nbsp;Cases</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────────  Section: Economic Indicators  ─────────────────── -->
+  <section id="indicators" class="bg-gray-50 py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <h2 class="text-center text-3xl font-bold">Key Economic Indicators</h2>
+      <p class="mx-auto mt-2 max-w-xl text-center text-gray-500">
+        Select a country to see live macro data.
+      </p>
+
+      <!-- Country selector -->
+      <form action="{{ url_for('dashboard') }}" method="get" class="mx-auto mt-6 flex max-w-md">
+        <select name="country" class="flex-1 rounded-l-lg border border-gray-300 px-4 py-2">
+          {% for code, name in countries %}
+            <option value="{{ code }}" {{ "selected" if code == current_country else "" }}>{{ name }}</option>
+          {% endfor %}
+        </select>
+        <button class="rounded-r-lg bg-teal-600 px-6 py-2 font-medium text-white hover:bg-teal-700">Load</button>
+      </form>
+
+      <!-- Indicator bubbles -->
+      <div class="mt-12 grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+        {% for ind in indicators %}
+        <div class="relative flex flex-col items-center justify-center rounded-full bg-white p-8 shadow">
+          <span class="text-2xl font-bold">{{ ind.value }}</span>
+          <span class="mt-1 text-sm text-gray-500">{{ ind.label }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────  Section: Recent News  ───────────────────── -->
+  <section id="news" class="py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <h2 class="text-center text-3xl font-bold">Latest Economics News</h2>
+      <p class="mx-auto mt-2 max-w-xl text-center text-gray-500">
+        Curated headlines updated every hour.
+      </p>
+
+      <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {% for item in news_items %}
+        <article class="overflow-hidden rounded-2xl shadow transition hover:scale-[1.02]">
+          <a href="{{ item.url }}" target="_blank" rel="noopener">
+            <img src="{{ item.image }}" alt="" class="h-48 w-full object-cover" />
+            <div class="p-6">
+              <h3 class="text-lg font-semibold">{{ item.title }}</h3>
+              <p class="mt-2 line-clamp-3 text-sm text-gray-600">{{ item.summary }}</p>
+              <span class="mt-4 inline-block text-xs text-teal-600">{{ item.source }}</span>
+            </div>
+          </a>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────────────  Section: Placeholder for Quizzes  ────────────────── -->
+  <section id="quizzes" class="bg-gray-800 py-20 text-white">
+    <div class="mx-auto max-w-6xl px-6 text-center">
+      <h2 class="text-3xl font-bold">Quiz Bank</h2>
+      <p class="mt-2 max-w-2xl mx-auto text-gray-300">
+        Put your knowledge to the test with topic-specific quizzes.
+      </p>
+      <a href="{{ url_for('courses.list_modules') }}" class="mt-8 inline-block rounded-xl bg-teal-500 px-6 py-3 font-medium shadow hover:bg-teal-600">
+        Browse Quizzes
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="border-t py-8 text-center text-sm text-gray-500">
+  © {{ now().year }} Study-Center. All rights reserved.
+</footer>
+
+</body>
+</html>
