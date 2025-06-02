@@ -19,4 +19,5 @@ python app.py  # runs on http://127.0.0.1:5000
 4. Deploy on Heroku/Fly.io or containerize via Docker
 
 ## Contributing
+This is a trial project by me to help everyone learning Economic Development. 
 Feel free to create issues or pull requests on GitHub with feedback or feature suggestions.
