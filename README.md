@@ -2,6 +2,7 @@
 
 A Flask-based learning platform for Economic Development students, structured around Todaro's framework. This scaffold includes user authentication, course/chapter management, resource library, and placeholders for quizzes & simulation modules.
 
+![image](https://github.com/user-attachments/assets/ea2153e6-e7b0-440c-8839-a75f784c8fca)
 ## Quick Start (Dev)
 
 ```bash
@@ -20,3 +21,5 @@ python app.py  # runs on http://127.0.0.1:5000
 
 ## Contributing
 Feel free to create issues or pull requests on GitHub with feedback or feature suggestions.
+
+
