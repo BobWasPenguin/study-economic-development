@@ -12,8 +12,8 @@ flask db init && flask db migrate -m "Initial" && flask db upgrade
 python app.py  # runs on http://127.0.0.1:5000
 ```
 
-## Next Steps
-1. Add content to templates/ (Jinja2 HTML files)
+## Current Task
+1. Add content to templates/ (Jinja2 HTML files) 
 2. Implement quiz grading logic & simulation engine (NumPy/Pandas)
 3. Write integration tests (pytest + Flask-Testing)
 4. Deploy on Heroku/Fly.io or containerize via Docker
